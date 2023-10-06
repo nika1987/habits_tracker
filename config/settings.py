@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
+    'django_celery_beat',
 
     'users',
     'habits',
@@ -156,3 +157,22 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
+# CELERY
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# Отслеживание задач CELERY
+CELERY_TASK_TRACK_STARTED = True
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = 30 * 60
+# Часовой пояс для работы Celery
+#CELERY_TIMEZONE = "Australia/Tasmania"
+
+# CELERY_BEAT
+CELERY_BEAT_SCHEDULE = {
+    'user_activity_check': {
+        'task': 'users.tasks.telegram_bot_updates',
+        'schedule': timedelta(minutes=10),
+    },
+}
