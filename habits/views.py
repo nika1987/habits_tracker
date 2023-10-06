@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
+
 from habits.permissions import IsOwner
+from habits.paginators import HabitsPagination
 
 from habits.serializers import HabitSerializer, HabitCreateSerializer
 
@@ -27,6 +29,7 @@ class HabitListAPIView(generics.ListAPIView):
     '''READ ALL Habits'''
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated & IsOwner]
+    pagination_class = HabitsPagination
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
