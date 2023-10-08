@@ -12,16 +12,18 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_bgj%$5g7@tbi@(dirl!_b2&ivi4jzd#4sxchfpwa6*4trklw@'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,8 +89,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'drf_kurs',
-        'USER': 'postgres',
-        'PASSWORD': '28101984',
+        'USER': os.getenv('USER_POSTGRES'),
+        'PASSWORD': os.getenv('PASSWORD_POSTGRES'),
     }
 }
 
@@ -137,8 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 # Telegram
-TG_BOT_NAME = 'sv_habits_bot'
-TG_API_KEY = '6347992685:AAEHwY0lxwMiMYa_iTB2slu4V1lrArz0ct0'
+TG_BOT_NAME = os.getenv('TG_NAME')
+TG_API_KEY = os.getenv('TG_API_KEY')
 
 
 # Authentication
