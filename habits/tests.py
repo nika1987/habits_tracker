@@ -11,7 +11,7 @@ import datetime
 
 '''HABITS TESTS'''
 
-class HabitTestCase(TestCase):
+class HabitTestCase(APITestCase):
     '''Тест модели Habit'''
 
     def setUp(self) -> None:
@@ -28,7 +28,7 @@ class HabitTestCase(TestCase):
         self.habit = Habit.objects.create(
             user=self.user,
             place='В парке',
-            time=datetime.time(minute=20),
+            time=datetime.time(minute=20).strftime("%Y-%m-%d %H:%M"),
             action='Слушать музыку',
             is_nice_habit=True,
             periodicity=1,
@@ -72,7 +72,7 @@ class HabitTestCase(TestCase):
         self.habit = Habit.objects.create(
             user=self.user,
             place='В парке',
-            time=datetime.time(minute=20),
+            time=datetime.time(minute=20).strftime("%Y-%m-%d %H:%M"),
             action='Слушать музыку test_list',
             is_nice_habit=True,
             periodicity=1,
