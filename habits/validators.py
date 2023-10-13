@@ -39,9 +39,8 @@ class TimeHabitValidator:
         self.field = field
 
     def __call__(self, value):
-        complete_time = dict(value).get(self.field)
-        seconds = complete_time.hour * 3600 + complete_time.minute * 60 + complete_time.second
-        if seconds > 120:
+        time_to_complete = dict(value).get(self.field)
+        if time_to_complete > 120:
             raise ValidationError('Время выполнения не должно превышать 120 сек!')
 
 

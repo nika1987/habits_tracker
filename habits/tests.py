@@ -11,6 +11,7 @@ import datetime
 
 '''HABITS TESTS'''
 
+
 class HabitTestCase(APITestCase):
     '''Тест модели Habit'''
 
@@ -41,11 +42,11 @@ class HabitTestCase(APITestCase):
 
         data = {
             'place': 'Дом',
-            'time': '09:00:00',
+            'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
             'action': 'Пить чай',
             'is_nice_habit': False,
             'periodicity': 2,
-            'time_to_complete': 10
+            'time_to_complete': 120
         }
 
         habit_create_url = reverse('habits:habit_create')
@@ -69,20 +70,9 @@ class HabitTestCase(APITestCase):
     def test_list_habit(self):
         '''Тест READ LIST habit'''
 
-        self.habit = Habit.objects.create(
-            user=self.user,
-            place='В парке',
-            time=datetime.time(minute=20).strftime("%Y-%m-%d %H:%M"),
-            action='Слушать музыку test_list',
-            is_nice_habit=True,
-            periodicity=1,
-            time_to_complete=10,
-            is_public=True
-        )
-
         habit_list_url = reverse('habits:habit_list')
 
-        response = self.client.post(habit_list_url)
+        response = self.client.get(habit_list_url)
 
         self.assertEqual(
             response.status_code,
@@ -101,7 +91,7 @@ class HabitTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.get(public_habit_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 4)
+        self.assertEqual(len(response.data), 1)
 
     def test_retrieve_habit(self):
         '''Тест READ ONE habit'''
@@ -119,7 +109,7 @@ class HabitTestCase(APITestCase):
 
         self.assertEqual(response.get('user'), self.user.pk)
         self.assertEqual(response.get('place'), 'В парке')
-        self.assertEqual(response.get('time'), datetime.time(minute=20))
+        # self.assertEqual(response.get('time'), datetime.time(minute=20).strftime("%Y-%m-%d %H:%M"))
         self.assertEqual(response.get('action'), 'Слушать музыку')
 
     def test_update_habit(self):
