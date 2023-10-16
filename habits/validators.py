@@ -18,6 +18,9 @@ class NiceHabitValidator:
         if habit_is_nice and habit_is_linked is not None:
             raise ValidationError('Нельзя выбрать приятную и связанную привычки одновременно!')
 
+        if habit_is_linked and habit_reward is None:
+            raise ValidationError('Можно выбрать связанную привычку и награду одновременно!')
+
 
 class IsNiceHabitValidator:
     '''Связанная привычка - привычка с признаком приятной привычки.'''

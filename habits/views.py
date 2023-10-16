@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from rest_framework import viewsets, generics
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from habits.permissions import IsOwner
 from habits.paginators import HabitsPagination
 
 from habits.serializers import HabitSerializer, HabitCreateSerializer
 
 from habits.models import Habit
-from users.models import User
 
 '''HABITS generics'''
 # ----------------------------------------------------------------
@@ -28,7 +25,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
 class HabitListAPIView(generics.ListAPIView):
     '''READ ALL Habits'''
     serializer_class = HabitSerializer
-    permission_classes = [IsAuthenticated & IsOwner]
+    permission_classes = [AllowAny]
     pagination_class = HabitsPagination
 
     def get_queryset(self):
@@ -39,20 +36,20 @@ class HabitRetrieveAPIView(generics.RetrieveAPIView):
     '''READ ONE Habit'''
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
-    permission_classes = [IsAuthenticated & IsOwner]
+    permission_classes = [AllowAny]
 
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
     '''UPDATE PUT AND PATCH Habits'''
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
-    permission_classes = [IsAuthenticated & IsOwner]
+    permission_classes = [IsAuthenticated]
 
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
     '''DELETE Habit'''
     queryset = Habit.objects.all()
-    permission_classes = [IsAuthenticated & IsOwner]
+    permission_classes = [IsAuthenticated]
 
 
 
@@ -65,3 +62,4 @@ class PublicHabitListAPIView(generics.ListAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.filter(is_public=True)
     permission_classes = [AllowAny]
+    pagination_class = HabitsPagination

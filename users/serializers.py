@@ -14,11 +14,16 @@ class UserCreateSerializer(serializers.Serializer):
     '''Сериализатор создания пользователя'''
 
     username = serializers.CharField(max_length=200)
-    description = serializers.SerializerMethodField(read_only=True)
 
     def save(self, **kwargs):
         user = User(
             username=self.validated_data['username'],
             is_active=False
         )
+        password = self.validated_data['password']
+        user.set_password(password)
         user.save()
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')

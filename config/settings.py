@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'django_celery_beat',
+    'corsheaders',
 
     'users',
     'habits',
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -169,7 +171,7 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 # Часовой пояс для работы Celery
-#CELERY_TIMEZONE = "Australia/Tasmania"
+# CELERY_TIMEZONE = "Australia/Tasmania"
 
 # CELERY_BEAT
 CELERY_BEAT_SCHEDULE = {
@@ -178,3 +180,16 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(minutes=10),
     },
 }
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://10.2.3.16:8000',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://10.2.3.16:8000',
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
