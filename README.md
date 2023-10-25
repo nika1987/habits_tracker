@@ -5,6 +5,42 @@ DRF_kurs
 Запуск проекта:
 > python manage.py runserver
 
+<br>
+
+### Настройка DRF в Docker
+Клонировать проект: https://github.com/svro2022/DRF_kurs.git
+
+#### Сборка без yaml файла
+
+**Сборка докер образа:**
+> docker build -t my-python-app .
+
+**Запуск контейнера:**
+> docker run my-python-app
+
+<br>
+
+#### Сборка с yaml файлом
+
+**Cоздание образа из Dockerfile:**
+> docker-compose build
+
+с запуском контейнера:
+> docker-compose up --build
+
+с запуском конктейнера в фоновом режиме:
+> docker-compose up -d --build
+
+**Запуск контейнера:**
+> docker-compose up
+
+**Миграции:**
+> sudo docker-compose exec app python manage.py migrate
+
+<br>
+<br>
+
+
 ## Цель проекта:
 
 > Реализовать бэкенд SPA-приложения. 

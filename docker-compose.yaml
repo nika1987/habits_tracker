@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+  # database POSTGRES
+  db:
+    image: postgres
+    env_file:
+      - .env
+
+    environment:
+      POSTGRES_DB: deploykurs
+      POSTGRES_USER: deployuser
+      POSTGRES_PASSWORD: deployuser
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+
+# тест проверки здоровья БД
+    #healthcheck:
+      #test: [ "CMD-SHELL", "pg_isready" ]
+      #interval: 10s
+      #timeout: 5s
+      #retries: 5
+
+  # OUR APP
+  app:
+    build: .
+    env_file:
+      - .env
+    tty: true
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      #db: (к тесту проверки здоровья БД)
+        #condition: service_healthy
+
+  # WEB SERVER
+  web:
+    image: nginx:latest
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./web:/usr/share/nginx/html
+
+  # REDIS
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+
+  # CELERY
+  celery:
+    build: .
+    env_file:
+      - .env
+    tty: true
+    command: celery -A config worker -l INFO
+    depends_on:
+      - redis
+      - app
+
+  # CELERY-BEAT
+  celery_beat:
+    build: .
+    env_file:
+      - .env
+    restart: always
+    tty: true
+    command: celery -A config beat -l INFO -S django
+    depends_on:
+      - redis
+      - app
+
+
+volumes:
+  pg_data:
