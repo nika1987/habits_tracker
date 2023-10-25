@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,9 +90,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'drf_kurs',
-        'USER': os.getenv('USER_POSTGRES'),
-        'PASSWORD': os.getenv('PASSWORD_POSTGRES'),
+        'NAME': 'drf_kurs',  # only for DRF_kurs
+        # 'NAME': 'deploykurs',  # for deploy_kurs
+        'USER': os.getenv('USER_POSTGRES'),  # user postgres
+        'PASSWORD': os.getenv('PASSWORD_POSTGRES'),  # user postgres password
+        # 'HOST': 'db',  # HOST for deploy_kurs and docker
+        # 'PORT': '5432', # PORT for deploy_kurs and docker
     }
 }
 
