@@ -8,7 +8,7 @@
 
 ### Настройка DRF в Docker
 **Клонировать проект:**
-> https://github.com/svro2022/DRF_kurs.git
+> https://github.com/svro2022/habits_tracker.git
 
 ### Сборка без yaml файла
 
