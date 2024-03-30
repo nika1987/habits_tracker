@@ -9,7 +9,7 @@ NULLABLE = {'blank': True, 'null': True}
 # Habit
 
 class Habit(models.Model):
-    '''Привычка'''
+    """Привычка"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Cоздатель привычки', **NULLABLE)
     link_nice_habit = models.ForeignKey('self', verbose_name='Связанная привычка', on_delete=models.CASCADE, **NULLABLE,
                                         related_name='habit')

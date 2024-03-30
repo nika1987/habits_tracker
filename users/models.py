@@ -8,7 +8,7 @@ NULLABLE = {'blank': True, 'null': True}
 # User
 
 class User(AbstractUser):
-    '''Пользователь'''
+    """Пользователь"""
     username = models.CharField(unique=True, max_length=100, verbose_name="Никнейм в ТГ")
     telegram_id = models.IntegerField(verbose_name="Телеграм ID", **NULLABLE)
 
